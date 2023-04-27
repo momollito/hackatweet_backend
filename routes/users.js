@@ -5,7 +5,7 @@ const { checkBody } = require("../modules/checkBody");
 const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
 
-/* SIGN UP  */
+/* SIGN UP/ users/signup */
 
 router.post("/signup", async (req, res) => {
   if (!checkBody(req.body, ["firstname", "username", "password"])) {
@@ -33,7 +33,7 @@ router.post("/signup", async (req, res) => {
   return;
 });
 
-/* SIGN IN  */
+/* SIGN IN / users/signin */
 
 router.post("/signin", async (req, res) => {
   if (!checkBody(req.body, ["username", "password"])) {
