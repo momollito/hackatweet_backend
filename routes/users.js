@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const { checkBody } = require("../modules/checkBody");
 const uid2 = require('uid2');
+const bcrypt = require('bcrypt');
 
 /* SIGN UP  */
 
@@ -20,10 +21,11 @@ router.post("/signup", async (req, res) => {
     return;
   } else {
     const token = uid2(32);
+    const hash = bcrypt.hashSync(password, 10);
     User.create({
       firstname: firstname,
       username: username,
-      password: password,
+      password: hash,
       token:token,
     });
   }
@@ -43,10 +45,9 @@ router.post("/signin", async (req, res) => {
 
   const findUser = await User.findOne({
     username: username,
-    password: password,
   });
 
-  if (findUser) {
+  if (findUser && bcrypt.compareSync(password, findUser.password)){
     res.json({ result: true, message: "Login successful" });
   } else {
     res.json({ result: false, error: "Wrong password or username" });
