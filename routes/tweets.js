@@ -35,20 +35,34 @@ router.get("/", (req, res) => {
 
 /* DELETE TWEET/ tweets/ */
 
-// router.delete("/", (req, res) => {
-//     Tweet.deleteOne({
-//       cityName: { $regex: new RegExp(req.params.cityName, "i") },
-//     }).then(deletedDoc => {
-//       if (deletedDoc.deletedCount > 0) {
-//         // document successfully deleted
-//         City.find().then(data => {
-//           res.json({ result: true, weather: data });
-//         });
-//       } else {
-//         res.json({ result: false, error: "City not found" });
-//       }
-//     });
-//   });
+router.delete("/", (req, res) => {
+    Tweet.deleteOne({
+      token: req.body.token,
+    }).then(deletedDoc => {
+      if (deletedDoc.deletedCount > 0) {
+        // document successfully deleted
+        Tweet.find().then(data => {
+          res.json({ result: true, tweet: data });
+        });
+      } else {
+        res.json({ result: false, error: "Tweet not found" });
+      }
+    });
+  });
+
+
+  /* UPDATE LIKES COUNT / tweets/ */
+
+router.put("/", (req, res) => {
+    Tweet.updateOne(
+      {token: req.body.token},
+      {likes: req.body.likes}
+    ).then(() => {
+        Tweet.find().then(data => {
+          res.json({ result: true, tweet: data });
+        });
+    });
+  });
 
 
 
