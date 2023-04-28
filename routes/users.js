@@ -28,9 +28,10 @@ router.post("/signup", async (req, res) => {
       password: hash,
       token:token,
     });
-  }
-  res.json({ result: true, message: "User succesfully created" });
+    res.json({ result: true, message: "User succesfully created", token: token});
   return;
+  }
+  
 });
 
 /* SIGN IN / users/signin */
