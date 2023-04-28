@@ -1,18 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const Tweet = require("../models/tweet");
+const uid2 = require('uid2');
+
+
+const token = uid2(32);
 
 /* CREATE TWEET/ tweets/ */
 
 router.post("/", (req, res) => {
-  
+
     const newTweet = new Tweet({
         image: 'https://m0.her.ie/wp-content/uploads/2015/06/19145708/MyspaceTom.jpg',
         firstname: req.body.firstname,
         username: req.body.username,
         tweet: req.body.tweet,
         date: new Date(),
-        isLiked: false,
+        likes: 0,
+        token: token,
       });
 
       newTweet.save().then(newDoc => {
@@ -31,7 +36,7 @@ router.get("/", (req, res) => {
 /* DELETE TWEET/ tweets/ */
 
 // router.delete("/", (req, res) => {
-//     City.deleteOne({
+//     Tweet.deleteOne({
 //       cityName: { $regex: new RegExp(req.params.cityName, "i") },
 //     }).then(deletedDoc => {
 //       if (deletedDoc.deletedCount > 0) {
