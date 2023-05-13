@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
       });
 
       newTweet.save().then(newDoc => {
-        res.json({ result: true, newDoc });
+        res.json({ result: true, tweet: newDoc });
       });
   
 });
